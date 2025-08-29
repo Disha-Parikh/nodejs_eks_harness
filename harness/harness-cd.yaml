@@ -1,0 +1,22 @@
+pipeline:
+  name: Deploy-NodeApp-EKS
+  identifier: DeployNodeAppEKS
+  projectIdentifier: DevOps
+  orgIdentifier: default
+  stages:
+    - stage:
+        name: Deploy
+        identifier: Deploy
+        type: Deployment
+        spec:
+          service:
+            serviceRef: nodejsAppService
+          environment:
+            environmentRef: devEKS
+          execution:
+            steps:
+              - step:
+                  type: K8sRollingDeploy
+                  name: Rolling Deploy
+                  identifier: RollingDeploy
+                  spec: {}

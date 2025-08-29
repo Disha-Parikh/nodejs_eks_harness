@@ -1,0 +1,22 @@
+pipeline:
+  name: Build-Push-NodeApp
+  identifier: BuildPushNodeApp
+  projectIdentifier: DevOps
+  orgIdentifier: default
+  stages:
+    - stage:
+        name: Build
+        identifier: Build
+        type: CI
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: BuildAndPushDockerRegistry
+                  name: Build & Push to ECR
+                  identifier: BuildPush
+                  spec:
+                    connectorRef: awsECRConnector
+                    repo: nodejs-app
+                    tags:
+                      - latest
