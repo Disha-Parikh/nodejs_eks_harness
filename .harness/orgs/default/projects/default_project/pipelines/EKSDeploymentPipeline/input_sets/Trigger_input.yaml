@@ -1,0 +1,28 @@
+inputSet:
+  name: Trigger input
+  identifier: Trigger_input
+  orgIdentifier: default
+  projectIdentifier: default_project
+  pipeline:
+    identifier: EKSDeploymentPipeline
+    properties:
+      ci:
+        codebase:
+          build:
+            type: branch
+            spec:
+              branch: <+trigger.branch>
+    stages:
+      - stage:
+          identifier: Deploy_to_EKS
+          type: Deployment
+          spec:
+            service:
+              serviceInputs:
+                serviceDefinition:
+                  type: Kubernetes
+                  spec:
+                    artifacts:
+                      primary:
+                        primaryArtifactRef: <+input>
+                        sources: <+input>
