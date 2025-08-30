@@ -1,0 +1,48 @@
+pipeline:
+  name: EKS-Deployment-Pipeline
+  identifier: EKSDeploymentPipeline
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: account.Github_Connector
+        build: <+input>
+  stages:
+    - stage:
+        name: Build and Push to ECR
+        identifier: Build_and_Push_to_ECR
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          caching:
+            enabled: true
+            override: true
+          buildIntelligence:
+            enabled: true
+          infrastructure:
+            type: KubernetesDirect
+            spec:
+              connectorRef: Delegate_Setup
+              namespace: harness-delegate-ng
+              automountServiceAccountToken: true
+              nodeSelector: {}
+              harnessImageConnectorRef: account.harnessImage
+              os: Linux
+          execution:
+            steps:
+              - step:
+                  type: BuildAndPushECR
+                  name: BuildAndPushECR_1
+                  identifier: BuildAndPushECR_1
+                  spec:
+                    connectorRef: account.AWS_ECR_Connector
+                    region: ap-south-1
+                    account: "590183810689"
+                    imageName: nodejs-app
+                    tags:
+                      - <+pipeline.sequenceId>
+                    dockerfile: Dockerfile
+                    context: .
