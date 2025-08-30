@@ -1,0 +1,15 @@
+infrastructureDefinition:
+  name: EKS Cluster
+  identifier: EKS_Cluster
+  orgIdentifier: default
+  projectIdentifier: default_project
+  environmentRef: EKS_Cluster_New
+  deploymentType: Kubernetes
+  type: KubernetesDirect
+  spec:
+    connectorRef: account.customEKSCluster
+    namespace: app
+    releaseName: release-<+INFRA_KEY_SHORT_ID>
+  allowSimultaneousDeployments: true
+  scopedServices:
+    - DeployingtoEKS
