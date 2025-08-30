@@ -1,0 +1,8 @@
+environment:
+  name: EKS Cluster New
+  identifier: EKS_Cluster_New
+  description: ""
+  tags: {}
+  type: PreProduction
+  orgIdentifier: default
+  projectIdentifier: default_project
